@@ -46,8 +46,26 @@ function sizeChanged() {
                 "style",
                 `display: block; width: ${window.innerWidth}px; height: ${window.innerHeight}px;`
             );
+
+            // const dpr = window.devicePixelRatio;
+            // const widthDPR = Math.round(window.innerWidth * dpr);
+            // const heightDPR = Math.round(window.innerHeight * dpr);
+
+            // game.scale.parent.width = Math.round(window.innerWidth);
+            // game.scale.parent.height = Math.round(window.innerHeight);
+
+            // game.scale.canvas.width = widthDPR;
+            // game.scale.canvas.height = heightDPR;
+
+            // game.scale.canvas.style.width = Math.round(window.innerWidth) + "px";
+            // game.scale.canvas.style.height = Math.round(window.innerHeight) + "px";
+
+            // game.scale.setGameSize(widthDPR, heightDPR);
+            // game.scale.setParentSize(window.innerWidth, window.innerHeight);
         }, 100);
     }
 }
 
 window.onresize = () => sizeChanged();
+
+// alert(window.devicePixelRatio);
