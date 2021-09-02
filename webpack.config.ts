@@ -44,7 +44,7 @@ module.exports = (env: { mode: "development" | "production" }) => {
             new CopyPlugin({
                 patterns: [
                     {
-                        from: "assets/**",
+                        from: "src/assets/**",
 
                         // if there are nested subdirectories , keep the hierarchy
                         transformPath(targetPath, absolutePath) {
