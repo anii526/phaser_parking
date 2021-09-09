@@ -4,7 +4,7 @@ import { Game, Types } from "phaser";
 
 import { LoadingScene } from "./scenes";
 
-const gameConfig: Types.Core.GameConfig = {
+export const gameConfig: Types.Core.GameConfig = {
     title: "Phaser game tutorial",
     type: Phaser.WEBGL,
     parent: "game",
@@ -15,9 +15,13 @@ const gameConfig: Types.Core.GameConfig = {
         height: window.innerHeight,
     },
     physics: {
-        default: "arcade",
-        arcade: {
-            debug: false,
+        default: "matter",
+        matter: {
+            debug: true,
+            gravity: {
+                x: 0,
+                y: 0,
+            },
         },
     },
     render: {
@@ -47,7 +51,7 @@ function sizeChanged() {
                 `display: block; width: ${window.innerWidth}px; height: ${window.innerHeight}px;`
             );
 
-            // const dpr = window.devicePixelRatio;
+            // const dpr = Math.min(window.devicePixelRatio, 2);
             // const widthDPR = Math.round(window.innerWidth * dpr);
             // const heightDPR = Math.round(window.innerHeight * dpr);
 
