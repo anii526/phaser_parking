@@ -6,18 +6,9 @@ export class LoadingScene extends Scene {
     private carSpeed = 0;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     private wasd: any;
-    private king: any;
-    private shapes = {
-        triangle: [
-            [
-                { x: 99, y: 79 },
-                { x: 77, y: 118 },
-                { x: 124, y: 118 },
-            ],
-        ],
-    };
-
-    private flag = 0;
+    // private king: any;
+    private whellR!: Phaser.GameObjects.Sprite;
+    private whellL!: Phaser.GameObjects.Sprite;
     constructor() {
         super("loading-scene");
     }
@@ -25,7 +16,7 @@ export class LoadingScene extends Scene {
         this.load.baseURL = "src/assets/";
 
         this.load.image("bg", "bg1.jpg");
-        this.load.image("car", "c6_3.png");
+        this.load.image("car", "car_red.png");
         this.load.image("king", "sprites/king.png");
         this.load.image("bkg_pattern", "bkg_pattern.png");
         this.load.image("car_wheel", "car_wheel.png");
@@ -47,20 +38,23 @@ export class LoadingScene extends Scene {
 
         this.car.add(body);
 
-        const whellR = this.add.sprite(0, 0, "car_wheel");
-        this.car.add(whellR);
-        const whellL = this.add.sprite(0, 0, "car_wheel");
-        this.car.add(whellL);
+        this.whellR = this.add.sprite(0, 0, "car_wheel");
+        this.car.add(this.whellR);
 
-        this.physicsContainer = this.matter.add.image(300, 300, "car");
+        this.whellL = this.add.sprite(0, 0, "car_wheel");
+        this.car.add(this.whellL);
 
-        // this.physicsContainer = this.matter.add.gameObject(this.car) as Phaser.Physics.Matter.Image;
+        // this.physicsContainer = this.matter.add.image(-47, -47, "car");
+
+        this.physicsContainer = this.matter.add.gameObject(this.car) as Phaser.Physics.Matter.Image;
         // this.physicsContainer.setAngularVelocity(0.01);
         // physicsContainer.applyForceFrom()
         // this.physicsContainer.rotation = Math.PI / 2;
         this.physicsContainer.body.mass = 300;
+        // this.physicsContainer.setFrictionAir(1);aaaa
+        // this.physicsContainer.set;
 
-        this.king = this.add.sprite(200, 200, "king");
+        // this.king = this.add.sprite(200, 200, "king");
 
         this.wasd = {
             up: this.input.keyboard.addKey("W"),
@@ -72,62 +66,58 @@ export class LoadingScene extends Scene {
     update(): void {
         // console.log(Math.random());
         if (this.physicsContainer) {
-            //   this.car.wheel_r.angle = this.car.wheel_l.angle;
-            // if (this.wasd.left.isDown && this.wheel_left) {
-            //     this.car.wheel_l.angle > -40 && (this.car.wheel_l.angle = this.car.wheel_r.angle -= 2);
-            // }
+            this.whellR.angle = this.whellL.angle;
+            if (this.wasd.left.isDown && this.whellL) {
+                this.whellL.angle > -40 && (this.whellL.angle = this.whellL.angle -= 2);
+            }
             // //     : (this.cursors.right.isDown && !this.missionMessage) ||
-            // if (this.wasd.right.isDown && this.wheel_right) {
-            //     this.car.wheel_l.angle < 40 && (this.car.wheel_l.angle = this.car.wheel_r.angle += 2);
-            // }
+            if (this.wasd.right.isDown && this.whellR) {
+                this.whellL.angle < 40 && (this.whellL.angle = this.whellR.angle += 2);
+            }
             // this.car.wheel_l.angle *= 0.92,
             //       this.car.wheel_l.angle <= 3 && this.car.wheel_l.angle >= -3 && (this.car.wheel_l.angle = 0),
             //       (this.car.wheel_r.angle = this.car.wheel_l.angle)),
 
             if (this.wasd.up.isDown) {
                 console.log(this.wasd.up.isDown);
-                this.carSpeed += this.carSpeed < 0.01 ? 0.001 : 0;
+                this.carSpeed += this.carSpeed < 4 ? 0.08 : 0;
                 // this.carSpeed = 0.001;
             }
             if (this.wasd.down.isDown) {
                 console.log(this.wasd.up.isDown);
-                this.carSpeed += this.carSpeed > -0.01 ? -0.001 : 0;
+                this.carSpeed += this.carSpeed > -4 ? -0.08 : 0;
                 // this.carSpeed = 0.001;
             }
-            // if(this.wasd.down.isDown){
+            // if (this.wasd.down.isDown) {
             //     this.carSpeed += this.carSpeed > -2.8 ? (this.carSpeed > 0.3 ? -0.3 : -0.1) : 0;
             // }
             // if (this.carSpeed <= -0.1) this.carSpeed += 0.1;
             // if (this.carSpeed >= 0.1) this.carSpeed -= 0.1;
-            // if (this.carSpeed > -0.1 && this.carSpeed < 0.1) this.carSpeed = 0;
-            //     this.car.body.rotation +=
-            //         ((this.car.wheel_l.angle * this.carSpeed) / this.car.wheel_l.x) * 0.017453292519;
+            this.physicsContainer.rotation += ((this.whellL.angle * this.carSpeed) / 45) * 0.017453292519;
             let g = 0;
-            // g = this.car.body.rotation + this.car.wheel_l.rotation;
-            g = this.physicsContainer.rotation + Math.PI / 2;
+            g = this.physicsContainer.rotation + this.whellL.rotation;
+            // g = this.physicsContainer.rotation;
             const h = this.carSpeed * Math.cos(g);
             const i = this.carSpeed * Math.sin(g);
             const j = new Phaser.Math.Vector2(h, i);
             let k = new Phaser.Math.Vector2();
             k.x = 1;
             k.y = 0;
-            const l = Math.cos(g);
-            const m = Math.sin(g);
+            const l = Math.cos(this.physicsContainer.rotation);
+            const m = Math.sin(this.physicsContainer.rotation);
             k = new Phaser.Math.Vector2(l * k.x - m * k.y, m * k.x + l * k.y);
             const n = k.dot(j);
             j.x = k.x * n;
             j.y = k.y * n;
 
-            // j.x = 0.01;
-            // j.y = 0.01;
-
             this.physicsContainer.applyForceFrom(
                 new Phaser.Math.Vector2(this.physicsContainer.x, this.physicsContainer.y),
-                new Phaser.Math.Vector2(j.x, j.y)
+                new Phaser.Math.Vector2(j.x / 50, j.y / 50)
             );
+            this.carSpeed *= 0.001;
 
-            this.king.x += Math.cos(this.king.rotation) * this.carSpeed;
-            this.king.y += Math.sin(this.king.rotation) * this.carSpeed;
+            // this.king.x += Math.cos(this.king.rotation) * this.carSpeed;
+            // this.king.y += Math.sin(this.king.rotation) * this.carSpeed;
         }
     }
 }
