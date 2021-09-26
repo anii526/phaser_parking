@@ -31,10 +31,10 @@ export class LoadingScene extends Scene {
         // this.add.sprite(200, 200, "car");
         // this.add.tileSprite(500, 500, 1000, 1000, "bkg_pattern");
 
-        const body = this.add.sprite(0, 0, "car");
+        const body = this.add.sprite(50, 0, "car");
 
         this.car = this.add.container(200, 200);
-        this.car.setSize(body.width, body.height);
+        this.car.setSize(body.width * 0.45, body.height * 0.8);
 
         this.car.add(body);
 
@@ -51,7 +51,7 @@ export class LoadingScene extends Scene {
         // physicsContainer.applyForceFrom()
         // this.physicsContainer.rotation = Math.PI / 2;
         this.physicsContainer.body.mass = 300;
-        // this.physicsContainer.setFrictionAir(1);aaaa
+        // this.physicsContainer.;
         // this.physicsContainer.set;
 
         // this.king = this.add.sprite(200, 200, "king");
@@ -66,13 +66,15 @@ export class LoadingScene extends Scene {
     update(): void {
         // console.log(Math.random());
         if (this.physicsContainer) {
+            this.physicsContainer.setAngularVelocity(0);
+            this.physicsContainer.setVelocity(0);
             this.whellR.angle = this.whellL.angle;
             if (this.wasd.left.isDown && this.whellL) {
-                this.whellL.angle > -40 && (this.whellL.angle = this.whellL.angle -= 2);
+                this.whellL.angle > -38 && (this.whellL.angle = this.whellL.angle -= 2);
             }
             // //     : (this.cursors.right.isDown && !this.missionMessage) ||
             if (this.wasd.right.isDown && this.whellR) {
-                this.whellL.angle < 40 && (this.whellL.angle = this.whellR.angle += 2);
+                this.whellL.angle < 38 && (this.whellL.angle = this.whellR.angle += 2);
             }
             // this.car.wheel_l.angle *= 0.92,
             //       this.car.wheel_l.angle <= 3 && this.car.wheel_l.angle >= -3 && (this.car.wheel_l.angle = 0),
@@ -88,12 +90,7 @@ export class LoadingScene extends Scene {
                 this.carSpeed += this.carSpeed > -4 ? -0.08 : 0;
                 // this.carSpeed = 0.001;
             }
-            // if (this.wasd.down.isDown) {
-            //     this.carSpeed += this.carSpeed > -2.8 ? (this.carSpeed > 0.3 ? -0.3 : -0.1) : 0;
-            // }
-            // if (this.carSpeed <= -0.1) this.carSpeed += 0.1;
-            // if (this.carSpeed >= 0.1) this.carSpeed -= 0.1;
-            this.physicsContainer.rotation += ((this.whellL.angle * this.carSpeed) / 45) * 0.017453292519;
+            this.physicsContainer.rotation += ((this.whellL.angle * this.carSpeed) / 90) * 0.017453292519;
             let g = 0;
             g = this.physicsContainer.rotation + this.whellL.rotation;
             // g = this.physicsContainer.rotation;
@@ -112,9 +109,9 @@ export class LoadingScene extends Scene {
 
             this.physicsContainer.applyForceFrom(
                 new Phaser.Math.Vector2(this.physicsContainer.x, this.physicsContainer.y),
-                new Phaser.Math.Vector2(j.x / 50, j.y / 50)
+                new Phaser.Math.Vector2(j.x, j.y)
             );
-            this.carSpeed *= 0.001;
+            this.carSpeed *= 0.92;
 
             // this.king.x += Math.cos(this.king.rotation) * this.carSpeed;
             // this.king.y += Math.sin(this.king.rotation) * this.carSpeed;
