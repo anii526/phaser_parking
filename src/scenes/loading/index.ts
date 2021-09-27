@@ -84,12 +84,12 @@ export class LoadingScene extends Scene {
 
             if (this.wasd.up.isDown) {
                 console.log(this.wasd.up.isDown);
-                this.carSpeed += this.carSpeed < 2 ? 0.08 : 0;
+                this.carSpeed += this.carSpeed < 20 ? 0.08 : 0;
                 // this.carSpeed = 0.001;
             }
             if (this.wasd.down.isDown) {
                 console.log(this.wasd.up.isDown);
-                this.carSpeed += this.carSpeed > -2 ? -0.08 : 0;
+                this.carSpeed += this.carSpeed > -20 ? -0.08 : 0;
                 // this.carSpeed = 0.001;
             }
             this.physicsContainer.rotation += ((this.whellL.angle * this.carSpeed) / 90) * 0.017453292519;
@@ -113,7 +113,7 @@ export class LoadingScene extends Scene {
                 new Phaser.Math.Vector2(this.physicsContainer.x, this.physicsContainer.y),
                 new Phaser.Math.Vector2(j.x, j.y)
             );
-            this.carSpeed *= 0.8;
+            this.carSpeed *= 0.9;
 
             // this.king.x += Math.cos(this.king.rotation) * this.carSpeed;
             // this.king.y += Math.sin(this.king.rotation) * this.carSpeed;
